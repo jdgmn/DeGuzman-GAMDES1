@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://dpcuah5fjeyi2"]
+
+[ext_resource type="Texture2D" uid="uid://deit126bfq6ba" path="res://graphics/player/pacemanup.png" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://vmqg87l1xiro" path="res://graphics/player/pacemandown.png" id="1_hqtel"]
+[ext_resource type="Script" uid="uid://dplefvbedhahy" path="res://player.gd" id="1_sweqy"]
+[ext_resource type="Texture2D" uid="uid://dn3lsk1g75tln" path="res://graphics/player/pacemanleft.png" id="2_sweqy"]
+[ext_resource type="Texture2D" uid="uid://ci6xsadd81d2d" path="res://graphics/player/pacemanright.png" id="3_2hs0m"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1jxqw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hqtel")
+}],
+"loop": true,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_sweqy")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_2hs0m")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_4flbx")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dw050"]
+
+[node name="Player" type="Area2D"]
+script = ExtResource("1_sweqy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_1jxqw")
+animation = &"down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-10, 0)
+scale = Vector2(3.5, 3.5)
+shape = SubResource("CapsuleShape2D_dw050")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

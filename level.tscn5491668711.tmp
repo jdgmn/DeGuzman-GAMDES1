@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://k4p81yohitk3"]
+
+[ext_resource type="Texture2D" uid="uid://bhqgenw0t4o50" path="res://graphics/pacewarbg.png" id="1_u52ul"]
+[ext_resource type="Script" uid="uid://cc7hhs6j6i302" path="res://level.gd" id="1_vonw3"]
+[ext_resource type="PackedScene" uid="uid://b8s0nhjmn4xkr" path="res://enemy.tscn" id="2_vonw3"]
+[ext_resource type="PackedScene" uid="uid://dpcuah5fjeyi2" path="res://player.tscn" id="4_0b4ue"]
+[ext_resource type="PackedScene" uid="uid://dlmjr3qjkysh7" path="res://ui.tscn" id="5_f2txt"]
+
+[sub_resource type="Curve2D" id="Curve2D_5xgho"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1152, 0, 0, 0, 0, 0, 1152, 648, 0, 0, 0, 0, 0, 648, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[node name="Level" type="Node"]
+script = ExtResource("1_vonw3")
+mob_scene = ExtResource("2_vonw3")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("1_u52ul")
+
+[node name="Player" parent="." instance=ExtResource("4_0b4ue")]
+
+[node name="SpawnTime" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTime" type="Timer" parent="."]
+
+[node name="StartTime" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPos" type="Marker2D" parent="."]
+position = Vector2(640, 385)
+
+[node name="EnemPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_5xgho")
+
+[node name="EnemSpawnLoc" type="PathFollow2D" parent="EnemPath"]
+
+[node name="UI" parent="." instance=ExtResource("5_f2txt")]
+
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="SpawnTime" to="." method="_on_spawn_time_timeout"]
+[connection signal="timeout" from="ScoreTime" to="." method="_on_score_time_timeout"]
+[connection signal="timeout" from="StartTime" to="." method="_on_start_time_timeout"]
