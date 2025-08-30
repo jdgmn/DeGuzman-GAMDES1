@@ -22,7 +22,7 @@ func update_score(score):
 	%Score.text = str(score)
 
 func _on_button_pressed():
-	%Start.hide()
+	%Button.hide()
 
 func _on_msg_timer_timeout():
 	$Message.hide()
